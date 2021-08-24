@@ -1,0 +1,78 @@
+<!--
+  ~ Vytvořeno jako studentský zápočtový projekt v rámci studia FIM UHK.
+  ~ 2021 - Petr Veselý
+  -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: site-head">
+    <title>Title</title>
+</head>
+<body>
+<header th:include="layout :: site-header"></header>
+
+<div class="title"><p>
+    <h1>My Inventory</h1></p></div>
+<div class="content">
+    <div class="myInventory">
+        <p>
+        <H3>Personal Inventory:</H3></p>
+        <p th:text="'You have no currently checked out items'" th:if="${borrowedList.isEmpty()}"></p>
+        <table th:unless="${borrowedList.isEmpty()}">
+            <thead>
+            <th>Item name:</th>
+            <th>Item description:</th>
+            <th>No. borrowed:</th>
+            <th>Borrowed on:</th>
+            <th>Image:</th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody th:each="br : ${borrowedList}">
+            <form method="POST" th:action="@{'/inventory/'}" th:object="${returnRequest}">
+                <td th:text="${br.getItem().getName()}"></td>
+                <td th:text="${br.getItem().getDescription()}"></td>
+                <td th:text="${br.getQuantity()}"></td>
+                <td th:text="${br.getBorrowedTimestamp()}"></td>
+                <td><img
+                        th:attr="src=@{'data:' + ${br.getItem().getPhoto().getDataType()} + ';base64,' + ${br.getItem().getPhoto().getImage()}}"
+                        class="avi"/></td>
+                <td>
+                    <input type="hidden" th:name="requestedId" th:value="${br.getBorrowedId()}"/>
+                    <input class="button" type="submit" value="RETURN"/>
+                </td>
+            </form>
+            </tbody>
+        </table>
+        <p>
+        <H3>Past personal Inventory:</H3></p>
+
+        <p th:text="'You have no previously checked out items'" th:if="${pastBorrowedList.isEmpty()}"></p>
+        <table th:unless="${pastBorrowedList.isEmpty()}">
+            <thead>
+            <th>Item name:</th>
+            <th>Item description:</th>
+            <th>No. borrowed:</th>
+            <th>Borrowed on:</th>
+            <th>Returned on:</th>
+            <th>Image:</th>
+            </tr>
+            </thead>
+            <tbody th:each="pbr : ${pastBorrowedList}">
+            <td th:text="${pbr.getItem().getName()}"></td>
+            <td th:text="${pbr.getItem().getDescription()}"></td>
+            <td th:text="${pbr.getQuantity()}"></td>
+            <td th:text="${pbr.getBorrowedTimestamp()}"></td>
+            <td th:text="${pbr.getReturnedTimestamp()}"></td>
+            <td><img
+                    th:attr="src=@{'data:' + ${pbr.getItem().getPhoto().getDataType()} + ';base64,' + ${pbr.getItem().getPhoto().getImage()}}"
+                    class="tableImg"/></td>
+            </form>
+            </tbody>
+        </table>
+    </div>
+    <p></p>
+</div>
+<footer th:include="layout :: site-footer"></footer>
+</body>
+</html>

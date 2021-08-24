@@ -1,0 +1,35 @@
+<!--
+  ~ Vytvořeno jako studentský zápočtový projekt v rámci studia FIM UHK.
+  ~ 2021 - Petr Veselý
+  -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: site-head">
+    <title>Index</title>
+</head>
+<body>
+<header th:include="layout :: site-header"></header>
+<div class="title"><p>
+    <h1>Welcome</h1></p></div>
+<div class="content">
+    <p>
+    <h2>
+        Welcome. Welcome to TerraSave Laboratories.
+    </h2>
+    </p>
+    <img src="img/heroImg.jpg" class="heroImg"/>
+    <p>
+        You have chosen, or been chosen,<br>
+        to relocate to one of our finest remaining urban centers.<br>
+        I thought so much of City 17 that I elected to establish my Administration here,<br>
+        in the Citadel so thoughtfully provided by Our Benefactors.<br>
+        I have been proud to call City 17 my home.<br>
+        And so, whether you are here to stay,<br>
+        or passing through on your way to parts unknown,<br>
+        welcome to City 17. It's safer here.<br>
+    <p></p>
+</div>
+<footer th:include="layout :: site-footer"></footer>
+</body>
+</html>

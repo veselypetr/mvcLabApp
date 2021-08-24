@@ -1,0 +1,66 @@
+<!--
+  ~ Vytvořeno jako studentský zápočtový projekt v rámci studia FIM UHK.
+  ~ 2021 - Petr Veselý
+  -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: site-head">
+    <title>Title</title>
+</head>
+<body>
+<header th:include="layout :: site-header"></header>
+
+<div class="title"><p>
+    <H1>Edit Person</H1></p></div>
+
+<div class="content">
+    <h3>Access:</h3>
+
+    <div class="priv">
+        <b><p th:text="'No current access privileges'" th:if="${person.getPersonPrivilegeList().isEmpty()}"></p>
+            <p th:text="'Current access privileges'" th:unless="${person.getPersonPrivilegeList().isEmpty()}"></p></b>
+        <p th:each="priv :${person.getPersonPrivilegeList()}">
+            <span th:text="${priv.privilegeLevel.getPrivilegeLevelTitle()}"></span>
+            <a th:href="@{'/users/' + ${person.getPersonid()} + '/delete-priv/' + ${priv.getPersonprivilegeid()}}">DELETE</a>
+        </p>
+    </div>
+
+    <b><p th:text="'No additional access privileges'" th:if="${codebookList.isEmpty()}"></p>
+        <p th:text="'Additional access privileges'" th:unless="${codebookList.isEmpty()}"></p></b>
+    <div class="code">
+        <p th:each="code :${codebookList}" th:unless="${codebookList.isEmpty()}">
+            <span th:text="${code.privilegeLevelTitle}"></span>
+            <a th:href="@{'/users/' + ${person.getPersonid()} + '/add-priv/' + ${code.privilegelevelcodebookid}}">ADD</a>
+        </p>
+    </div>
+
+    <form action="" th:action="@{'/users/edit-person/' + ${person.getPersonid()}}" th:object="${person}" method="post">
+        <H3>Personal details:</H3>
+        <p>First name: <input type="text" th:field="*{firstName}" th:value="${person.getFirstName()}"/></p>
+        <p>Last name: <input type="text" th:field="*{lastName}" th:value="${person.getLastName()}"/></p>
+        <p>Description: <input type="text" th:field="*{description}" th:value="${person.getDescription()}"/></p>
+        <p>Login: <input type="text" th:field="*{securedDetails.login}"
+                         th:value="${person.getSecuredDetails().getLogin()}"/></p>
+        <p>Password: <input type="password" th:field="*{securedDetails.password}"/></p>
+        <b><p>User role:</p></b>
+        <p>Restricted: <input type="radio" th:field="*{securedDetails.userrole}" value="ROLE_USER" checked="checked">
+        </p>
+        <p>Administrator: <input type="radio" th:field="*{securedDetails.userrole}" value="ROLE_ADMIN"></p>
+        <input class="button" type="submit" value="SAVE"/>
+    </form>
+
+    <form method="POST" enctype="multipart/form-data"
+          th:action="@{'/users/edit-person/' + ${person.getPersonid()}+ '/update-photo/'}">
+        <H3>Photo:</H3>
+        <p>
+            <img th:attr="src=@{'data:' + ${person.getPhoto().getDataType()} + ';base64,' + ${person.getPhoto().getImage()}}"
+                 class="avi"/></p>
+        <p>Upload photo:<input type="file" name="file"/></p>
+        <input class="button" type="submit" value="UPLOAD"/></td></tr>
+    </form>
+    <p>
+</div>
+<footer th:include="layout :: site-footer"></footer>
+</body>
+</html>

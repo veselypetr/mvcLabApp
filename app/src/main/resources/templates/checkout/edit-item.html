@@ -1,0 +1,46 @@
+<!--
+  ~ Vytvořeno jako studentský zápočtový projekt v rámci studia FIM UHK.
+  ~ 2021 - Petr Veselý
+  -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: site-head">
+    <title>Title</title>
+</head>
+<body>
+<header th:include="layout :: site-header"></header>
+
+<div class="title"><p>
+    <H1>Edit item</H1></p></div>
+<div class="content">
+    <form action="" th:action="@{'/checkout/edit-item/' + ${item.getItemid()}}" enctype="multipart/form-data"
+          th:object="${item}" method="post">
+        <H3>Item:</H3>
+        <p>Item name: <input type="text" th:field="*{name}" th:value="${item.getName()}"/></p>
+        <p>Quantity: <input type="number" th:field="*{quantity}" th:value="${item.getQuantity()}"/></p>
+        <p>Description: <input type="text" th:field="*{description}" th:value="${item.getDescription()}"/></p>
+        <p><img th:attr="src=@{'data:' + ${item.getPhoto().getDataType()} + ';base64,' + ${item.getPhoto().getImage()}}"
+                class="avi"/></p>
+        <p>Upload photo:<input type="file" name="file"/></p>
+        <p>
+            <tr>
+        <p>
+        <h3>Categories: </h3></p>
+        <td>
+            <th:block th:each="cat : ${categories}">
+                <input type="checkbox" name="cats" th:field="*{itemCodebook}" th:value="${cat.getItemcodebookid()}"/>
+                <label th:text="${cat.getCategoryName()}"></label>
+            </th:block>
+        </td>
+        </tr>
+        </p>
+        <input class="button" type="submit" value="SAVE"/>
+    </form>
+
+    <p></p>
+</div>
+<footer th:include="layout :: site-footer"></footer>
+
+</body>
+</html>

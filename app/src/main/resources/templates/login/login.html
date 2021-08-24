@@ -1,0 +1,43 @@
+<!--
+  ~ Vytvořeno jako studentský zápočtový projekt v rámci studia FIM UHK.
+  ~ 2021 - Petr Veselý
+  -->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+
+<head th:fragment="site-head">
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" href="../static/css/menu.css" th:href="@{/css/menu.css}"/>
+    <link rel="icon" href="../static/img/logo.png" th:href="@{/img/logo.png}"/>
+</head>
+<body>
+<header th:include="layout :: site-header"></header>
+<div class="title"><p>
+    <h1>Log in</h1></p></div>
+<div class="content">
+    <div class="login">
+        <div th:if="${param.error}"><p>
+            <h3>Invalid username and password.</h3>
+            </p>
+        </div>
+        <div th:if="${param.logout}">
+            <p>
+            <h3> You have been logged out.</h3>
+            </p>
+        </div>
+
+        <form th:action="@{/login}" method="post">
+            <div><p><label> User Name :
+                <p><input type="text" name="username"/> </label></p></div>
+            <div><p><label> Password:
+                <p><input type="password" name="password"/> </label></p></div>
+            <div><p><input class="button" type="submit" value="Sign In"/></p></div>
+        </form>
+    </div>
+</div>
+<footer th:include="layout :: site-footer"></footer>
+</body>
+</html>

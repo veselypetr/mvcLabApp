@@ -1,0 +1,59 @@
+/*
+ * Vytvořeno jako studentský zápočtový projekt v rámci studia FIM UHK.
+ * 2021 - Petr Veselý
+ */
+
+header {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    flex: 0;
+    background-color: #009DFF;
+    align-items: center;
+/ / border-radius: 0 px 0 px 1 em 1 em;
+}
+
+#logo {
+    height: 50px;
+    margin-left: 1em;
+    margin-right: 0.35em;
+}
+
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    overflow: hidden;
+    text-transform: uppercase;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover, active {
+    background-color: #FFFFFF;
+    color: #009DFF;
+}
+
+active {
+    color: #009DFF;
+    background-color: #FFFFFF;
+}
+
+@media screen and (max-width: 1200px) {
+    header {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+    }
+
+}

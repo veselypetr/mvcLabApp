@@ -1,0 +1,50 @@
+<!--
+  ~ Vytvořeno jako studentský zápočtový projekt v rámci studia FIM UHK.
+  ~ 2021 - Petr Veselý
+  -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: site-head">
+    <title>User Management</title>
+</head>
+<body>
+<header th:include="layout :: site-header"></header>
+<div class="title"><p>
+    <h1>My Profile</h1></p></div>
+<div class="content">
+    <div class="person">
+        <div class="personDetails">
+            <h2 th:text="${person.firstName} + ' ' + ${person.lastName}"> Name:</h2>
+
+            <img th:attr="src=@{'data:' + ${person.getPhoto().getDataType()} + ';base64,' + ${person.getPhoto().getImage()}}"
+                 class="avi"/>
+
+            <p><a th:href="@{/myprofile/update}">UPDATE PROFILE</a></p>
+
+            <div>
+                <p th:text="${person.description}"></p>
+            </div>
+
+            <div class="personLoginDetails">
+                <p th:text="'Login: ' + ${person.getSecuredDetails().getLogin()}"></p>
+                <p th:text="'User role: Restricted'"
+                   th:if="${person.getSecuredDetails().getUserrole() == 'ROLE_USER'}"></p></b>
+                <p th:text="'User role: Administrator'"
+                   th:if="${person.getSecuredDetails().getUserrole() == 'ROLE_ADMIN'}"></p></b>
+            </div>
+        </div>
+
+        <div class="priv">
+            <p>
+            <h3> Access </h3></p>
+            <span th:each="priv :${person.getPersonPrivilegeList()}">
+        <p th:text="${priv.privilegeLevel.getPrivilegeLevelTitle()}"></p>
+    </span>
+        </div>
+    </div>
+    <p>
+</div>
+<footer th:include="layout :: site-footer"></footer>
+</body>
+</html>

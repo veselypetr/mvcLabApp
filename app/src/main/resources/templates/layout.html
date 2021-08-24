@@ -1,0 +1,32 @@
+<!--
+  ~ Vytvořeno jako studentský zápočtový projekt v rámci studia FIM UHK.
+  ~ 2021 - Petr Veselý
+  -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:fragment="site-head">
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="../static/css/menu.css" th:href="@{/css/menu.css}" />
+    <link rel="icon" href="../static/img/logo.png" th:href="@{/img/logo.png}" />
+</head>
+<body>
+<header th:fragment="site-header">
+    <a href="index.html" th:href="@{/}"><img id="logo" src="../static/img/logo.png" th:src="@{/img/logo.png}" alt="lab logo" /></a>
+    <ul th:with="view=${#httpServletRequest.getServletPath()}">
+        <li sec:authorize="hasRole('ROLE_USER')" th:classappend="${#strings.equals(view, '/') ? 'active' : ''}"><a href="index" th:href="@{/}">Home</a></li>
+        <li sec:authorize="hasRole('ROLE_ADMIN')" th:classappend="${#strings.equals(view, '/users') ? 'active' : ''}"><a href="users/" th:href="@{/users/}">User Management</a></li>
+        <li sec:authorize="hasRole('ROLE_USER')" th:classappend="${#strings.equals(view, '/myprofile') ? 'active' : ''}"><a href="myprofile/" th:href="@{/myprofile/}">My Profile</a></li>
+        <li sec:authorize="hasRole('ROLE_USER')" th:classappend="${#strings.equals(view, '/inventory') ? 'active' : ''}"><a href="inventory/" th:href="@{/inventory/}">My Inventory</a></li>
+        <li sec:authorize="hasRole('ROLE_ADMIN')" th:classappend="${#strings.equals(view, '/logs') ? 'active' : ''}"><a href="logs/" th:href="@{/logs/}">Logs</a></li>
+        <li sec:authorize="hasRole('ROLE_USER')" th:classappend="${#strings.equals(view, '/checkout') ? 'active' : ''}"><a href="checkout/" th:href="@{/checkout/}">Checkout</a></li>
+        <li sec:authorize="hasRole('ROLE_USER')" th:classappend="${#strings.equals(view, '/logout') ? 'active' : ''}"><a href="logout" th:href="@{/logout}">Logout</a></li>
+    </ul>
+</header>
+<footer th:fragment="site-footer">
+    &copy; <span th:text="${1900 + #execInfo.now.time.year}"></span> by Petr Vesely 2021, Created as part of credit project at FIM/UHK</a>
+</footer>
+
+</body>
+</html>

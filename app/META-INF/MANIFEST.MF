@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: cz.fim.uhk.lab.LabApplication
+Class-Path: WEB-INF
+

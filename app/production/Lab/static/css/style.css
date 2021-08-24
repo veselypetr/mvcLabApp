@@ -1,0 +1,118 @@
+/*
+ * Vytvořeno jako studentský zápočtový projekt v rámci studia FIM UHK.
+ * 2021 - Petr Veselý
+ */
+
+@import url('https://fonts.googleapis.com/css?family=IBM Plex Mono');
+
+html, body {
+    margin: 0;
+    font-family: IBM Plex Mono, sans-serif;
+    height: 100%;
+}
+
+body {
+    background-color: #FFFFFF;
+    width: 65%;
+    margin-left: auto;
+    margin-right: auto;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.title {
+    background-color: #009DFF;
+    background-blend-mode: overlay;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.content {
+    flex: 1 0 auto;
+}
+
+.avi {
+    vertical-align: middle;
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+}
+
+.button {
+    background-color: #009DFF;
+    border: none;
+    color: white;
+    padding: 1em 2em;
+    text-align: center;
+    font-family: "IBM Plex Mono";
+    font-size: 1em;
+    display: inline-block;
+}
+
+footer {
+    flex-shrink: 0;
+    background-color: #009DFF;
+    padding: 8px;
+    color: white;
+}
+
+footer > a {
+    text-decoration: none;
+    color: white;
+}
+
+table {
+    border-collapse: collapse;
+    width: 80%;
+    align-content: center;
+}
+
+table, th, td {
+    border: 1px solid black;
+    text-align: center;
+}
+
+th {
+    height: 50px;
+}
+
+.myInventory table {
+    width: 100%;
+}
+
+.checkout table {
+    width: 100%;
+}
+.logs table {
+    width: 100%;
+}
+.login {
+    align-content: center;
+    text-align: center;
+    alignment: center;
+}
+
+.tableImg{
+    max-height: 100px;
+    width: auto;
+}
+
+.heroImg{
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    vertical-align: middle;
+}
+
+@media screen and (max-width: 1200px) {
+    body {
+        width: 100%;
+    }
+    .content {
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+}

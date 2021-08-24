@@ -1,0 +1,80 @@
+<!--
+  ~ Vytvořeno jako studentský zápočtový projekt v rámci studia FIM UHK.
+  ~ 2021 - Petr Veselý
+  -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: site-head">
+    <title>User Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+</head>
+<body>
+<header th:include="layout :: site-header"></header>
+
+<div class="title"><p>
+    <h1>User Management</h1></p></div>
+
+<div class="content">
+    <p>
+        <button class="button" onclick="window.location.href = '/users/create-person';">NEW USER
+        </button>
+    </p>
+
+    <div class="person" th:each="person : ${personList}">
+        <div class="personDetails">
+            <h2 th:text="${person.firstName} + ' ' + ${person.lastName}"> Name:</h2>
+
+            <img th:attr="src=@{'data:' + ${person.getPhoto().getDataType()} + ';base64,' + ${person.getPhoto().getImage()}}"
+                 class="avi"/>
+
+            <p><a th:href="@{'/users/edit-person/' + ${person.getPersonid()}}">EDIT</a></p>
+            <p><a th:href="@{'/users/delete/' + ${person.getPersonid()}}">DELETE</a></p>
+
+            <div>
+                <p th:text="${person.description}"></p>
+            </div>
+
+            <div class="personLoginDetails">
+                <p th:text="'Login: ' + ${person.getSecuredDetails().getLogin()}"></p>
+                <p th:text="'User role: Restricted'"
+                   th:if="${person.getSecuredDetails().getUserrole() == 'ROLE_USER'}"></p></b>
+                <p th:text="'User role: Administrator'"
+                   th:if="${person.getSecuredDetails().getUserrole() == 'ROLE_ADMIN'}"></p></b>
+            </div>
+        </div>
+
+        <div class="personInventory" th:unless="${person.getBorrowedList().isEmpty()}">
+            <p>
+            <H3>Personal Inventory:</H3></p>
+            <table>
+                <thead>
+                <th>Item name:</th>
+                <th>Item description:</th>
+                <th>No. borrowed:</th>
+                <th>Borrowed on:</th>
+                </tr>
+                </thead>
+                <tbody th:each="br : ${person.getBorrowedList()}">
+                <td th:text="${br.getItem().getName()}"></td>
+                <td th:text="${br.getItem().getDescription()}"></td>
+                <td th:text="${br.getQuantity()}"></td>
+                <td th:text="${br.getBorrowedTimestamp()}"></td>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="priv">
+            <p>
+            <h3> Access </h3></p>
+            <span th:each="priv :${person.getPersonPrivilegeList()}">
+        <p th:text="${priv.privilegeLevel.getPrivilegeLevelTitle()}"></p>
+    </span>
+        </div>
+
+    </div>
+</div>
+<footer th:include="layout :: site-footer"></footer>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!--
+  ~ Vytvořeno jako studentský zápočtový projekt v rámci studia FIM UHK.
+  ~ 2021 - Petr Veselý
+  -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: site-head">
+    <title>User Management</title>
+</head>
+<body>
+<header th:include="layout :: site-header"></header>
+<div class="title"><p>
+    <h1>Update Profile</h1></p></div>
+<div class="content">
+    <form action="" th:action="@{/myprofile/update}" th:object="${person}" method="post">
+
+        <p>Login: <input type="text" th:field="*{securedDetails.login}"
+                         th:value="${person.getSecuredDetails().getLogin()}"/></p>
+        <p>Password: <input type="password" th:field="*{securedDetails.password}"/></p>
+
+        <p th:text="'User role: Administrator'"
+           th:if="${person.getSecuredDetails().getUserrole() == 'ROLE_USER'}"></p></b>
+        <p th:text="'User role: Restricted'"
+           th:if="${person.getSecuredDetails().getUserrole() == 'ROLE_ADMIN'}"></p></b>
+
+        <input class="button" type="submit" value="SAVE"/>
+
+    </form>
+    <p></p>
+    <form method="POST" enctype="multipart/form-data" th:action="@{'/myprofile/update/update-photo'}">
+        <H3>Photo:</H3>
+        <p>
+            <img th:attr="src=@{'data:' + ${person.getPhoto().getDataType()} + ';base64,' + ${person.getPhoto().getImage()}}"
+                 class="avi"/></p>
+        <p>Upload photo:<input type="file" name="file"/></p>
+        <p><input class="button" type="submit" value="UPLOAD"/></p>
+    </form>
+    <p></p>
+</div>
+<footer th:include="layout :: site-footer"></footer>
+</body>
+</html>

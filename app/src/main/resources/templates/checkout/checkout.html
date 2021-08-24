@@ -1,0 +1,72 @@
+<!--
+  ~ Vytvořeno jako studentský zápočtový projekt v rámci studia FIM UHK.
+  ~ 2021 - Petr Veselý
+  -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:include="layout :: site-head">
+    <title>Index</title>
+</head>
+<body>
+<header th:include="layout :: site-header"></header>
+
+<div class="title"><p>
+    <h1>Checkout</h1></p></div>
+<div class="content">
+    <div class="checkout">
+        <p>
+        <H3>Available to checkout:</H3></p>
+        <p th:text="'No items available to checkout.'" th:if="${availableItems.isEmpty()}"></p>
+
+        <p>
+            <button sec:authorize="hasRole('ROLE_ADMIN')" class="button"
+                    onclick="window.location.href = '/checkout/create-item';">CONSTRUCT ADDITIONAL ITEMS
+            </button>
+        </p>
+
+        <p>
+            <button sec:authorize="hasRole('ROLE_ADMIN')" class="button"
+                    onclick="window.location.href = '/checkout/create-specimen';">CONSTRUCT ADDITIONAL SPECIMEN
+            </button>
+        </p>
+
+        <table th:unless="${availableItems.isEmpty()}" class="checkout">
+            <thead>
+            <th>Item name:</th>
+            <th>Item description:</th>
+            <th>Currently available:</th>
+            <th>Image:</th>
+            <th>How many<br>to checkout?</th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody th:each="it : ${availableItems}">
+            <form method="POST" th:action="@{'/checkout/'}" th:object="${checkoutRequest}">
+                <td th:text="${it.getName()}"></td>
+                <td th:text="${it.getDescription()}"></td>
+                <td th:text="${it.getCurrentlyAvailable()}"></td>
+                <td><img class="tableImg"
+                         th:attr="src=@{'data:' + ${it.getPhoto().getDataType()} + ';base64,' + ${it.getPhoto().getImage()}}">
+                </td>
+                <td>
+                    <input type="number" th:name="requestedQuantity" th:value="'0'" th:max="${it.getCurrentlyAvailable()}"/>
+                    <input type="hidden" th:name="requestedId" th:value="${it.getItemid()}"/>
+                </td>
+                <td><p>
+                    <a th:if="${it.getSpecimenDetails() == null}" sec:authorize="hasRole('ROLE_ADMIN')"
+                       th:href="'/checkout/edit-item/' + ${it.getItemid()}">EDIT</a>
+                    <a th:if="${it.getSpecimenDetails() != null}" sec:authorize="hasRole('ROLE_ADMIN')"
+                       th:href="'/checkout/edit-specimen/' + ${it.getItemid()}">EDIT</a>
+                    <br><input class="button" type="submit" value="CHECKOUT"/><br>
+                    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="'/checkout/remove-item/' + ${it.getItemid()}">DELETE</a>
+                </p></td>
+            </form>
+            </tbody>
+        </table>
+    </div>
+    <p></p>
+</div>
+<footer th:include="layout :: site-footer"></footer>
+</body>
+</html>

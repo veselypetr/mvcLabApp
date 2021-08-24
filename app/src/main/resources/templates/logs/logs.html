@@ -1,0 +1,75 @@
+<!--
+  ~ Vytvořeno jako studentský zápočtový projekt v rámci studia FIM UHK.
+  ~ 2021 - Petr Veselý
+  -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: site-head">
+    <title>Title</title>
+</head>
+<body>
+<header th:include="layout :: site-header"></header>
+<div class="title"><p>
+    <h1>Logs</h1></p></div>
+<div class="content">
+    <div class="logs">
+        <p>
+        <h3>Checkout history</h3></p>
+        <table>
+            <thead>
+            <tr>
+                <th>Borrowed by:</th>
+                <th>Item name:</th>
+                <th>No. borrowed:</th>
+                <th>Borrowed on:</th>
+                <th>Returned on:</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="br : ${allBorrowed}">
+                <td th:text="${br.getPerson().getFirstName()} + ' ' + ${br.getPerson().getLastName()}"></td>
+                <td th:text="${br.getItem().getName()}"></td>
+                <td th:text="${br.getQuantity()}"></td>
+                <td th:text="${br.getBorrowedTimestamp()}"></td>
+                <td>
+                    <span th:if="${br.getReturnedTimestamp() != null}" th:text="${br.getReturnedTimestamp()}"></span>
+                    <span th:if="${br.getReturnedTimestamp() == null}" th:text="'Has not been returned yet.'"></span>
+                </td>
+                </tdt>
+            </tr>
+            </tbody>
+        </table>
+
+        <p>
+        <h3>Terminal history</h3></p>
+        <table>
+            <thead>
+            <tr>
+                <th>Accessed by:</th>
+                <th>Event:</th>
+                <th>Access status:</th>
+                <th>Accessed on:</th>
+                <th>Terminal ID:</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="ath : ${allTerminalHistory}">
+                <td th:text="${ath.getPerson().getFirstName()} + ' ' + ${ath.getPerson().getLastName()}"></td>
+                <td th:text="${ath.getEvent()}"></td>
+                <td>
+                    <span th:if="${ath.isApproved()}" th:text="'Access granted.'"></span>
+                    <span th:if="!${ath.isApproved()}" th:text="'Access declined.'"></span>
+                </td>
+                <td th:text="${ath.getTimestamp()}"></td>
+                <td th:text="${ath.getTerminal().getAccessTerminalId()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <p>
+</div>
+<footer th:include="layout :: site-footer"></footer>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!--
+  ~ Vytvořeno jako studentský zápočtový projekt v rámci studia FIM UHK.
+  ~ 2021 - Petr Veselý
+  -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="site-head">
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" href="../static/css/menu.css" th:href="@{/css/menu.css}"/>
+    <link rel="icon" href="../static/img/logo.png" th:href="@{/img/logo.png}"/>
+</head>
+<body>
+
+<div class="title"><p>
+    <H1>TERMINAL ACCESS</H1></p></div>
+<div class="content">
+    <h3>Input personID:</h3>
+    <p>This would be handled by a secondary authentication method - card scannes, biometrics, etc.</p>
+    <form action="" th:action="@{'/terminal/' + ${terminal.getAccessTerminalId()} + '/addAccess'}"
+          th:object="${personRequest}" method="post">
+        <p>PersonID: <input type="text" th:field="*{requestedId}" th:value="'1'"/></p>
+        <p>Event: <input type="text" th:field="*{event}" th:value="${terminal.getEvent()}"/></p>
+        <input class="button" type="submit" value="SAVE"/>
+    </form>
+
+    <h3 th:text="'Terminal ' + ${terminal.getAccessTerminalId()} + ' history'"></h3></p>
+    <p th:if="${terminal.getTerminalHistoryList().isEmpty()}">No terminal history available.</p>
+    <table th:unless="${terminal.getTerminalHistoryList().isEmpty()}">
+        <thead>
+        <tr>
+            <th>Accessed by:</th>
+            <th>Event:</th>
+            <th>Access status:</th>
+            <th>Accessed on:</th>
+            <th>Terminal ID:</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ath : ${terminal.getTerminalHistoryList()}">
+            <td th:text="${ath.getPerson().getFirstName()} + ' ' + ${ath.getPerson().getLastName()}"></td>
+            <td th:text="${ath.getEvent()}"></td>
+            <td>
+                <span th:if="${ath.isApproved()}" th:text="'Access granted.'"></span>
+                <span th:if="!${ath.isApproved()}" th:text="'Access declined.'"></span>
+            </td>
+            <td th:text="${ath.getTimestamp()}"></td>
+            <td th:text="${ath.getTerminal().getAccessTerminalId()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <p></p>
+</div>
+<footer th:include="layout :: site-footer"></footer>
+
+</body>
+</html>
